@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import './css/style.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { createBrowserHistory } from "history";
+import { getCartDataRequest } from './actions/actionCreators';
+import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import Main from './components/Main';
+import Order from './components/Order';
+import Error404 from './components/Error404';
 
-function App() {
+function App(props) {
+  const customHistory = createBrowserHistory();
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCartDataRequest('ref'));
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router history={customHistory}>
+        <Switch>
+          {/* <Route path='/react-shoe-store/build/catalog/:id' component={ProductInfo} />
+          <Route path='/react-shoe-store/build/404' component={Error404} />
+          <Route path='/react-shoe-store/build/catalog' component={Catalog} />
+          <Route path='/react-shoe-store/build/about' component={About} />
+          <Route path='/react-shoe-store/build/contacts' component={Contacts} /> */}
+          <Route path='/react-shoe-store/build/order' component={Order} />
+          <Route exact path='/react-shoe-store/build/' component={Main} />
+          <Route path='/react-shoe-store/build/' component={Error404} />
+        </Switch>
+      </Router>
+    </>
   );
 }
 
