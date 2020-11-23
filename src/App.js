@@ -2,8 +2,8 @@ import './css/style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from "history";
-import { getCartDataRequest } from './actions/actionCreators';
-import { useDispatch } from 'react-redux';
+// import { getCartDataRequest } from './actions/actionCreators';
+// import { useDispatch } from 'react-redux';
 import React, { useEffect } from 'react';
 import Main from './components/Main';
 import Order from './components/Order';
@@ -12,10 +12,10 @@ import Error404 from './components/Error404';
 function App(props) {
   const customHistory = createBrowserHistory();
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getCartDataRequest('ref'));
-  })
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(getCartDataRequest('ref'));
+  // })
 
   return (
     <>

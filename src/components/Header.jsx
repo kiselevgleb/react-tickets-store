@@ -15,9 +15,9 @@ export default function Header(props) {
     };
 
     useEffect(() => {
-        dispatch(searchCitiesRequest(search));
+        // dispatch(searchCitiesRequest(search));
         // dispatch(getCategoriesRequest());
-    }, search)
+    }, [search])
 
     // let cities = [{ "_id": "5b9a2fa7f83e028786ea5672", "name": "москва" }, { "_id": "5b9a2faef83e028786ea56c2", "name": "могоча" }, { "_id": "5b9a2fb1f83e028786ea56e7", "name": "смоленск" }];
     // const { loading, error, cartData } = useSelector(state => state.skills);

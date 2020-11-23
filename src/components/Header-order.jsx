@@ -3,10 +3,24 @@ import React, { Fragment, useState, useEffect } from 'react';
 import iconRef from '../img/icon.png';
 import iconVec from '../img/vector.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeSearchField } from '../actions/actionCreators';
+import { getCityIdRequest, changeSearchField, getTicketsDataRequest } from '../actions/actionCreators';
 import { NavLink } from 'react-router-dom'
 
 export default function Header(props) {
+    const { cities } = useSelector(state => state.skills);
+    // const [data, setData] = useState({});
+    const [city, setCity] = useState([]);
+
+    const dispatch = useDispatch();
+    const handleSearch = evt => {
+        const { value } = evt.target;
+        console.log(evt.target);
+        dispatch(changeSearchField(value));
+        let mas = city;
+        setCity(mas.concat(cities))
+        // evt._id = cities.filter(O => O.name === evt.target)._id;
+    };
+
     // const { loading, error, cartData } = useSelector(state => state.skills);
     // const [searchInput, setSearchInput] = useState("");
     // const [searchBut, setSearchBut] = useState(false);
@@ -49,6 +63,45 @@ export default function Header(props) {
     //     // props.history.push('/cart');
     //     props.history.push('/react-shoe-store/build/cart');
     // };
+    const getTickets = (evt) => {
+        evt.preventDefault();
+        dispatch(getCityIdRequest(evt.target.from.value));
+
+        // setCity(cities);
+        console.log(111);
+        // console.log(city);
+        const { value } = evt.target.from;
+        // console.log(value);
+        // console.log(cities);
+        changeSearchField(value);
+        dispatch(getCityIdRequest(evt.target.from.value));
+        // console.log(data);
+        // console.log(city_id);
+        // console.log(search);
+        // console.log(evt.target.from.value);
+        
+        // dispatch(changeSearchField(evt.target.to.value));
+        // console.log(evt.target.from);
+        // console.log(cities);
+        const to = cities.filter(O => O.name === evt.target.to.value);
+
+        // setCity(cities);
+        // console.log(city);
+        // console.log(evt.target.from.value);
+
+        const from = city.filter(O => O.name === evt.target.from.value);
+        
+        console.log(from[0]._id);
+        console.log( to[0]._id);
+        // console.log(city);
+        // console.log(city);
+        console.log( { "from_city_id": from[0]._id, "to_city_id": to[0]._id, "date_start": evt.target.date.value, "date_end": evt.target.date_end.value,});
+
+        dispatch(getTicketsDataRequest({ "from_city_id": from[0]._id, "to_city_id": to[0]._id, "date_start": evt.target.date.value, "date_end": evt.target.date_end.value,}));
+        // dispatch(getOrderInfoRequest(id));
+        // props.history.push(`/catalog/${id}`);
+        // props.history.push(`/react-shoe-store/build/catalog/${id}`);
+    };
 
     return (
         <Fragment>
@@ -87,59 +140,55 @@ export default function Header(props) {
                     </div>
                 </nav>
                 <div className="wrap">
-                    {/* <div className="col-lg-1"> */}
-                    <form className="calc-big block" onSubmit='#'>
+                    <form className="calc-big block" onSubmit={getTickets}>
                         <div className="row">
-
                             <div className="col col-inline-block">
                                 <div className="col wrap-blok">
                                     <label className="calc-big-text block" htmlFor="tend">Направление</label>
                                     <div className="wrap-blok">
-                                        <input className="inp-big " type="text" id="tend" placeholder="Откуда" />
-                                        <img className="icon d-none d-lg-block" src={iconRef} alt="refresh"></img>
-                                        <input className="inp-big " type="text" placeholder="Куда" />
+                                        <input list="cities-from" id="from" className="inp-big" type="text" placeholder="Откуда" type="search" onChange={handleSearch} />
+                                        <datalist id="cities-from">
+                                            {cities.map(o =>
+                                                <option class="list-group-item inp-cities" value={o.name}></option>)}
+                                        </datalist>
+                                        <img className="icon" src={iconRef} alt="refresh"></img>
+                                        <input list="cities-to" className="inp-big" id="to" type="text" placeholder="Куда" type="search" onChange={handleSearch} />
+                                        <datalist id="cities-to">
+                                            {cities.map(o =>
+                                                <option class="list-group-item inp-cities" value={o.name}></option>)}
+                                        </datalist>
                                     </div>
                                 </div>
-                                {/* <div class="break"></div> */}
                                 <div className="col wrap-blok">
                                     <label className="calc-big-text block" htmlFor="date">Дата</label>
                                     <div className="wrap-blok">
                                         <input className="inp-big " id="date" type="date" placeholder="дд/мм/гг" />
-                                        {/* <img className="icon icon-light" src={iconRef} alt="refresh"></img> */}
                                         <img className="icon icon-light d-none d-lg-block" src={iconRef} alt="refresh"></img>
-                                        <input className="inp-big " type="date" placeholder="" />
+                                        <input className="inp-big " id="date_end" type="date" placeholder="" />
                                     </div>
-                                    {/* <div className="right"> */}
-                                    {/* </div>   */}
                                 </div>
                             </div>
-                            {/* <div > */}
-                            {/* </div> */}
-
                         </div>
                         <div className="col right">
                             <button type="submit" className="but-from but-from-big">НАЙТИ БИЛЕТЫ</button>
-
                         </div>
-
                     </form>
-                    {/* </div> */}
-                    {/* </div> */}
                 </div>
-                <div class="row arrow-wrap left">
-                <div className="col">
-                <div class="arrow">
-                </div>
-                </div>
-                <div className="col">
-                <div class="arrow arrow-background">
-                </div>
-                </div>
-                <div className="col">
-                <div class="arrow arrow-background">
-                </div>
-                
-                        {/* </div> */}
+
+                <div class="arrow-wrap padding">
+                    <div class="wrap padding">
+                        <div class="arrow-start"><b class="arrow-text d-none d-md-block" >Билеты</b></div>
+                        <div class="arrow arrow-background"><b class="arrow-text d-none d-md-block">Пассажиры</b></div>
+                        <div className="col padding line-wrap">
+                            <div class="arrow-line line-rotate-pl"></div>
+                            <div class="arrow-line line-rotate-mi"></div>
+                        </div>
+                        <div class="arrow-three arrow-background"><b class="arrow-text d-none d-md-block">Оплата</b></div>
+                        <div className="col padding line-wrap">
+                            <div class="arrow-line line-rotate-pl"></div>
+                            <div class="arrow-line line-rotate-mi"></div>
+                        </div>
+                        <div class="arrow-end arrow-background"><b class="arrow-text d-none d-md-block">Проверка</b></div>
                     </div>
                 </div>
             </header>
