@@ -1,68 +1,32 @@
 import React, { Fragment, useState, useEffect } from 'react';
-// import mainLogo from '../img/header-logo.png';
 import iconRef from '../img/icon.png';
 import iconVec from '../img/vector.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeSearchField, searchCitiesRequest } from '../actions/actionCreators';
+import { getCityIdRequest, changeSearchField, getTicketsDataRequest } from '../actions/actionCreators';
 import { NavLink } from 'react-router-dom'
 
 export default function Header(props) {
     const { search, cities } = useSelector(state => state.skills);
+    const [city, setCity] = useState([]);
     const dispatch = useDispatch();
     const handleSearch = evt => {
         const { value } = evt.target;
         dispatch(changeSearchField(value));
+        let mas = city;
+        setCity(mas.concat(cities));
     };
+    const getTickets = (evt) => {
+        evt.preventDefault();
+        dispatch(getCityIdRequest(evt.target.from.value));
+        const { value } = evt.target.from;
+        changeSearchField(value);
+        dispatch(getCityIdRequest(evt.target.from.value));
+        const to = cities.filter(O => O.name === evt.target.to.value);
+        const from = city.filter(O => O.name === evt.target.from.value);
+        dispatch(getTicketsDataRequest({ "from_city_id": from[0]._id, "to_city_id": to[0]._id, "date_start": evt.target.date.value, "date_end": evt.target.date_end.value, }));
+        props.history.push(`/order`);
 
-    useEffect(() => {
-        // dispatch(searchCitiesRequest(search));
-        // dispatch(getCategoriesRequest());
-    }, [search])
-
-    // let cities = [{ "_id": "5b9a2fa7f83e028786ea5672", "name": "москва" }, { "_id": "5b9a2faef83e028786ea56c2", "name": "могоча" }, { "_id": "5b9a2fb1f83e028786ea56e7", "name": "смоленск" }];
-    // const { loading, error, cartData } = useSelector(state => state.skills);
-    // const [searchInput, setSearchInput] = useState("");
-    // const [searchBut, setSearchBut] = useState(false);
-    // const dispatch = useDispatch();
-    // let cionInCart = 0;
-    // if (cartData != []&&cartData != null) {
-    //     cionInCart = JSON.parse(cartData).length
-    // }
-    // const handleSearchBut = () => {
-    //     if (searchBut) {
-    //         if (searchInput !== "") {
-    //             setSearchBut(false);
-    //             // props.history.push('/catalog');
-    //             props.history.push('/react-shoe-store/catalog');
-    //             dispatch(changeSearchField(searchInput));
-
-    //         } else {
-    //             setSearchBut(false);
-    //         }
-    //     } else {
-    //         setSearchBut(true);
-    //     }
-    // };
-    // const handleSearchButEnter = (event) => {
-    //     if (event.key === 'Enter') {
-    //         if (searchBut) {
-    //             if (searchInput !== "") {
-    //                 setSearchBut(false);
-    //                 // props.history.push('/catalog');
-    //                 props.history.push('/react-shoe-store/catalog');
-    //                 dispatch(changeSearchField(searchInput));
-    //             }
-    //         }
-    //     }
-    // };
-    // const handleSearchInput = (evt) => {
-    //     setSearchInput(evt.target.value);
-    // };
-    // const handleCart = () => {
-    //     // props.history.push('/cart');
-    //     props.history.push('/react-shoe-store/build/cart');
-    // };
-    console.log(cities)
+    };
     return (
         <Fragment>
             <header class="header-container">
@@ -79,20 +43,16 @@ export default function Header(props) {
                             <div className="col">
                                 <ul className="navbar-nav mr-auto">
                                     <li className="nav-item">
-                                        {/* <NavLink className="nav-link" exact to="/react-shoe-store/build/about" >О нас</NavLink> */}
                                         <a className="nav-link" href="/react-shoe-store/build/#about" >О нас</a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" href="/react-shoe-store/build/#work" >Как это работает</a>
-                                        {/* <NavLink className="nav-link" exact to="/react-shoe-store/build/work" >Как это работает</NavLink> */}
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" href="/react-shoe-store/build/#feedback" >Отзывы</a>
-                                        {/* <NavLink className="nav-link" exact to="/react-shoe-store/build/reviews" >Отзывы</NavLink> */}
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link-end" href="/react-shoe-store/build/#contact" >Контакты</a>
-                                        {/* <NavLink className="nav-link-end" exact to="/react-shoe-store/build/contacts" >Контакты</NavLink> */}
                                     </li>
                                 </ul>
                             </div>
@@ -108,7 +68,7 @@ export default function Header(props) {
                             </div>
                         </div>
                         <div className="col">
-                            <form className="calc" onSubmit='#'>
+                            <form className="calc" onSubmit={getTickets}>
                                 <div className="inp-from-location">
                                     <p className="calc-text">Направление</p>
                                     <p className="inline">
@@ -129,9 +89,9 @@ export default function Header(props) {
                                 </div>
                                 <div className="inp-from-date">
                                     <p className="calc-text">Дата</p>
-                                    <input className="inp-date" type="date" placeholder="дд/мм/гг" />
+                                    <input className="inp-date" id="date" type="date" placeholder="дд/мм/гг" />
                                     <img className="icon icon-light" src={iconRef} alt="refresh"></img>
-                                    <input className="inp-date" type="date" placeholder="дд/мм/гг" />
+                                    <input className="inp-date" id="date_end" type="date" placeholder="дд/мм/гг" />
                                 </div>
                                 <button type="submit" className="but-from">НАЙТИ БИЛЕТЫ</button>
                             </form>

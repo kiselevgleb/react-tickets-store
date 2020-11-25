@@ -7,7 +7,7 @@ export const searchCities = async (search) => {
 }
 
 export const ticketsData = async (ticketsdata) => {
-    console.log(ticketsdata)
+    console.log(`${process.env.REACT_APP_TICKETS_URL}?from_city_id=${ticketsdata.from_city_id}&to_city_id=${ticketsdata.to_city_id}&date_start=${ticketsdata.date_start}&date_end=${ticketsdata.date_end}`)
     // let td = JSON.parse(ticketsdata)
     const response = await fetch(`${process.env.REACT_APP_TICKETS_URL}?from_city_id=${ticketsdata.from_city_id}&to_city_id=${ticketsdata.to_city_id}&date_start=${ticketsdata.date_start}&date_end=${ticketsdata.date_end}`);
     if (!response.ok) {

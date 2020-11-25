@@ -15,7 +15,7 @@ import {
 const initialState = {
   search: '',
   cities: [],
-  datatick: {},
+  datatick: [],
   cityId: {},
 };
 

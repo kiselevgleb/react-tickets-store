@@ -52,7 +52,7 @@ function* handleTicketsDataSaga(action) {
         const retryCount = 3;
         const retryDelay = 1 * 1000; // ms
         const data = yield retry(retryCount, retryDelay, ticketsData, action.payload.ticketsdata);
-        console.log(data)
+        console.log(data.items)
         yield put(getTicketsDataSuccess(data));
     } catch (e) {
         yield put(getTicketsDataFailure(e.message));
