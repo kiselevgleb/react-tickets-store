@@ -1,0 +1,26 @@
+.plus{
+  border: 0.5px solid #ffffff;
+  height: 12px;
+  width: 12px;
+  border-radius: 2px;
+  margin-top: 12px;
+  margin-right: 15px;
+}
+
+.plus-line {
+  width: 80%;
+  border: 0.01px solid #ffffff;
+  margin-top: 4px;
+  text-align: center;
+  margin-left: 10%;
+}
+.plus-90{
+  transform: translateY(0%) rotateZ(90deg);
+  margin-top: -2px;
+}
+.plus:active .plus-90 {
+  opacity: 0;
+}
+.plus:checked .plus-90 {
+  opacity: 0;
+}

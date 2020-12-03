@@ -1,0 +1,53 @@
+.wrap-last{
+  margin-left: 30px;
+  width: 180px;
+}
+.h1-last{
+  font-size: 17px;
+  /* margin-top: 40px!important; */
+  margin-bottom: 20px;
+  color: #000000;
+  /* margin-left: -15px; */
+}
+.last-tick{
+  height: 80px;
+  width: 180px;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 0.5px solid #cacaca;
+
+}
+.last-city{
+  font-size: 12px;
+  color: #000000;
+  margin-bottom: 0px;
+
+}
+.last-station{
+  font-size: 10px;
+  color: #928F94;
+  line-height: 10px;
+  margin-bottom: 5px;
+
+}
+.last-row-inline {
+  flex-wrap: nowrap!important;
+  display: flex;
+  /* margin-top: 40px; */
+}
+.last-col {
+  /* padding: 0px; */
+  padding-left: 10px;
+  /* padding-right: 5px; */
+}
+.last-icon{
+  height: 12px;
+}
+.last-text-or{
+  font-size: 12px;
+  color: #FFA800;
+}
+.last-text{
+  margin-top: 10px;
+}
