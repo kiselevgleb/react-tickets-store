@@ -9,8 +9,12 @@ import {
   GET_CITYID_REQUEST,
   GET_CITYID_FAILURE,
   GET_CITYID_SUCCESS,
+  GET_LAST_TIC_REQUEST,
+  GET_LAST_TIC_FAILURE,
+  GET_LAST_TIC_SUCCESS,
 
-
+  CHANGE_INPUT_CHECKBOX,
+  CHANGE_INPUT_PRICE,
 } from './actionTypes';
 
 
@@ -34,6 +38,14 @@ export const changeSearchField = searchChange => ({
   payload: { searchChange },
 });
 
+export const changeInputCheckbox = (nameInp, stateInp) => ({
+  type: CHANGE_INPUT_CHECKBOX,
+  payload: { nameInp, stateInp },
+});
+export const changeInputPrice = (min, max) => ({
+  type: CHANGE_INPUT_PRICE,
+  payload: { min, max },
+});
 
 export const getTicketsDataRequest = (ticketsdata) => ({
   type: GET_TICKETSDATA_REQUEST,
@@ -63,4 +75,20 @@ export const getCityIdFailure = errorName => ({
 export const getCityIdSuccess = cityId => ({
   type: GET_CITYID_SUCCESS,
   payload: { cityId },
+});
+
+
+
+export const getLastTicRequest = () => ({
+  type: GET_LAST_TIC_REQUEST,
+});
+
+export const getLastTicFailure = errorLastTic => ({
+  type: GET_LAST_TIC_FAILURE,
+  payload: { errorLastTic },
+});
+
+export const getLastTicSuccess = lastTic => ({
+  type: GET_LAST_TIC_SUCCESS,
+  payload: { lastTic },
 });

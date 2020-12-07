@@ -17,10 +17,20 @@ import 'react-input-range/lib/css/index.css';
 import '../css/but-plus.css';
 import '../css/filter.css';
 import '../css/last-tick.css';
+import '../css/but-pages.css';
+import { getLastTicRequest, getTicketsDataRequest, changeInputCheckbox, changeInputPrice } from '../actions/actionCreators';
 
 export default function Items(props) {
-    const { loading, error, datatick } = useSelector(state => state.skills);
+    // const { loading, error, datatick, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_express, price_from, price_to  } = useSelector(state => state.skills);
+    const { loading, error, datatick, lastTic, from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to } = useSelector(state => state.skills);
+
     const [num, setNum] = useState({ value: { min: 2000, max: 3000 } });
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getTicketsDataRequest({ "from_city_id": from_city_id, "to_city_id": to_city_id, "date_start": date_start, "date_end": date_end, "date_start_arrival": date_start_arrival, "date_end_arrival": date_end_arrival, "have_first_clas": have_first_class, "have_second_class": have_second_class, "have_third_class": have_third_class, "have_fourth_class": have_fourth_class, "have_wifi": have_wifi, "have_air_conditioning": have_air_conditioning, "have_express": have_express, "price_from": price_from, "price_to": price_to }));
+        dispatch(getLastTicRequest());
+    }, [from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to])
 
     if (loading) {
         return <Loader></Loader>;
@@ -28,20 +38,25 @@ export default function Items(props) {
     if (error) {
         return <p className="error">Произошла ошибка!</p>;
     }
-
-
-
-
+    const handleInput = evt => {
+        if (evt.currentTarget[0] !== undefined) {
+            dispatch(changeInputPrice(evt.currentTarget[0].value, evt.currentTarget[1].value));
+        } else {
+            let nameInp = evt.target.name;
+            let stateInp = evt.target.checked;
+            dispatch(changeInputCheckbox(nameInp, stateInp));
+        }
+    };
     return (
         <Fragment>
             <div className="wrap-tickets">
                 <div className="wrap col-tickets ticket-block">
-                    <div className="col-sm-4">
+                    <div className="col-sm-3">
                         <div className=" col filter">
                             <p className="filter-text-big">Дата поездки</p>
-                            <input className="inp-big filter-inp-date" id="date" type="date" placeholder="дд/мм/гг" />
+                            <input className="inp-big filter-inp-date" id="date" type="date" placeholder="дд/мм/гг" onChange={handleInput} />
                             <p className="filter-text-big">Дата возвращения</p>
-                            <input className="inp-big filter-inp-date" id="date" type="date" placeholder="дд/мм/гг" />
+                            <input className="inp-big filter-inp-date" id="date" type="date" placeholder="дд/мм/гг" onChange={handleInput} />
                             <div className="filter-line"></div>
                             <div className="row">
                                 <div className="filter-icon">
@@ -51,8 +66,8 @@ export default function Items(props) {
                                     <label for="customRange2" className="filter-text-sm">Купе</label>
                                 </div>
                                 <div class="material-switch pull-right filter-switch">
-                                    <input id="someSwitchOptionCupe" name="someSwitchOptionCupe" type="checkbox" />
-                                    <label for="someSwitchOptionCupe" class="label-warning"></label>
+                                    <input id="have_second_class" name="have_second_class" type="checkbox" onChange={handleInput} defaultChecked={have_second_class} />
+                                    <label for="have_second_class" class="label-warning"></label>
                                 </div>
                             </div>
                             <div className="row">
@@ -63,8 +78,8 @@ export default function Items(props) {
                                     <label for="customRange2" className="filter-text-sm">Плацкарт</label>
                                 </div>
                                 <div class="material-switch pull-right filter-switch">
-                                    <input id="someSwitchOptionPlaz" name="someSwitchOptionPlaz" type="checkbox" />
-                                    <label for="someSwitchOptionPlaz" class="label-warning"></label>
+                                    <input id="have_third_class" name="have_third_class" type="checkbox" onChange={handleInput} defaultChecked={have_third_class} />
+                                    <label for="have_third_class" class="label-warning"></label>
                                 </div>
                             </div>
                             <div className="row">
@@ -75,8 +90,8 @@ export default function Items(props) {
                                     <label for="customRange2" className="filter-text-sm">Сидячий</label>
                                 </div>
                                 <div class="material-switch pull-right filter-switch">
-                                    <input id="someSwitchOptionPas" name="someSwitchOptionPas" type="checkbox" />
-                                    <label for="someSwitchOptionPas" class="label-warning"></label>
+                                    <input id="have_fourth_class" name="have_fourth_class" type="checkbox" onChange={handleInput} defaultChecked={have_fourth_class} />
+                                    <label for="have_fourth_class" class="label-warning"></label>
                                 </div>
                             </div>
                             <div className="row">
@@ -87,8 +102,8 @@ export default function Items(props) {
                                     <label for="customRange2" className="filter-text-sm">Люкс</label>
                                 </div>
                                 <div class="material-switch pull-right filter-switch">
-                                    <input id="someSwitchOptionStar" name="someSwitchOptionStar" type="checkbox" />
-                                    <label for="someSwitchOptionStar" class="label-warning"></label>
+                                    <input id="have_first_class" name="have_first_class" type="checkbox" onChange={handleInput} defaultChecked={have_first_class} />
+                                    <label for="have_first_class" class="label-warning"></label>
                                 </div>
                             </div>
                             <div className="row">
@@ -99,8 +114,8 @@ export default function Items(props) {
                                     <label for="customRange2" className="filter-text-sm">Wi-Fi</label>
                                 </div>
                                 <div class="material-switch pull-right filter-switch">
-                                    <input id="someSwitchOptionWiFi" name="someSwitchOptionWiFi" type="checkbox" />
-                                    <label for="someSwitchOptionWiFi" class="label-warning"></label>
+                                    <input id="have_wifi" name="have_wifi" type="checkbox" onChange={handleInput} defaultChecked={have_wifi} />
+                                    <label for="have_wifi" class="label-warning"></label>
                                 </div>
                             </div>
                             <div className="row">
@@ -111,8 +126,8 @@ export default function Items(props) {
                                     <label for="customRange2" className="filter-text-sm">Экспресс</label>
                                 </div>
                                 <div class="material-switch pull-right filter-switch">
-                                    <input id="someSwitchOptionExp" name="someSwitchOptionExp" type="checkbox" />
-                                    <label for="someSwitchOptionExp" class="label-warning"></label>
+                                    <input id="have_express" name="have_express" type="checkbox" onChange={handleInput} defaultChecked={have_express} />
+                                    <label for="have_express" class="label-warning"></label>
                                 </div>
                             </div>
                             <div className="filter-line"></div>
@@ -123,8 +138,8 @@ export default function Items(props) {
                                         <p className="filter-text-range">от</p>
                                         <p className="filter-text-range">до</p>
                                     </div>
-                                    <form className="form">
-                                        <InputRange draggableTrack maxValue={5000} minValue={1000} onChange={value => setNum({ value })} value={num.value} />
+                                    <form className="form" onMouseUp={handleInput} >
+                                        <InputRange draggableTrack maxValue={5000} minValue={1000} name="price" value={num.value} onChange={value => setNum({ value })} />
                                     </form>
                                 </div>
                             </div>
@@ -151,24 +166,25 @@ export default function Items(props) {
                             <div className="row">
                                 <p className="h1-last"><b>ПОСЛЕДНИЕ БИЛЕТЫ</b></p>
                             </div>
-                            <div className="row">
-                                <div className="last-tick">
-                                    <div className="row last-row-inline">
-                                        <div className="col last-col">
-                                            <p className="last-city">Санкт-Петербург</p>
-                                            <p className="last-station">Курский<br></br> вокзал</p>
-                                            <img className="last-icon" src={lastTick} alt="lastTick"></img>
+                            {lastTic.map(o =>
+                                <div className="row">
+                                    <div className="last-tick">
+                                        <div className="row last-row-inline">
+                                            <div className="col last-col">
+                                                <p className="last-city">{o.departure.from.city.name}</p>
+                                                <p className="last-station">{o.departure.from.railway_station_name}<br></br> вокзал</p>
+                                                <img className="last-icon" src={lastTick} alt="lastTick"></img>
 
-                                        </div>
-                                        <div className="col last-col">
-                                            <p className="last-city">Самара</p>
-                                            <p className="last-station">Курский<br></br> вокзал</p>
-                                            <p className="last-station last-text">от <b className="last-text-or">2500</b> Р</p>
+                                            </div>
+                                            <div className="col last-col">
+                                                <p className="last-city">{o.departure.to.city.name}</p>
+                                                <p className="last-station">{o.departure.to.railway_station_name}<br></br> вокзал</p>
+                                                <p className="last-station last-text">от <b className="last-text-or">{o.min_price}</b> Р</p>
 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div>)}
                         </div>
 
 
@@ -257,6 +273,20 @@ export default function Items(props) {
                                     </div>
                                 </div>
                             )}
+                        <div className="row blok-left">
+                            <div className="btn-pages">
+                                <div className="plus-line"></div>
+                                <div className="plus-line plus-45"></div>
+                            </div>
+                            <div className="btn-pages">
+                                <div className="btn-text"><b>1</b></div>
+                            </div>
+                            <div className="btn-pages">
+                                <div className="plus-line-mn"></div>
+                                <div className="plus-line plus-mn-45"></div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

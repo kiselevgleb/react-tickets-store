@@ -2,21 +2,24 @@ import React, { Fragment, useState, useEffect } from 'react';
 import iconRef from '../img/icon.png';
 import iconVec from '../img/vector.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCityIdRequest, changeSearchField, getTicketsDataRequest } from '../actions/actionCreators';
+import { changeInputCheckbox, getCityIdRequest, changeSearchField, getTicketsDataRequest } from '../actions/actionCreators';
 import { NavLink } from 'react-router-dom'
 
 export default function HeaderOrder(props) {
+    // const { from_city_id, to_city_id, date_start, date_end,} = useSelector(state => state.skills);
+    const { from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to  } = useSelector(state => state.skills);
+
     const { cities } = useSelector(state => state.skills);
     const [city, setCity] = useState([]);
     const dispatch = useDispatch();
     const handleSearch = evt => {
         const { value } = evt.target;
-        console.log(evt.target);
+        // console.log(evt.target);
         dispatch(changeSearchField(value));
         let mas = city;
         setCity(mas.concat(cities));
     };
-    const getTickets = (evt) => {
+    const getTickets = async (evt) => {
         evt.preventDefault();
         dispatch(getCityIdRequest(evt.target.from.value));
         const { value } = evt.target.from;
@@ -24,7 +27,14 @@ export default function HeaderOrder(props) {
         dispatch(getCityIdRequest(evt.target.from.value));
         const to = cities.filter(O => O.name === evt.target.to.value);
         const from = city.filter(O => O.name === evt.target.from.value);
-        dispatch(getTicketsDataRequest({ "from_city_id": from[0]._id, "to_city_id": to[0]._id, "date_start": evt.target.date.value, "date_end": evt.target.date_end.value, }));
+        console.log(from_city_id)
+        await dispatch(changeInputCheckbox("from_city_id", from[0]._id));
+        await dispatch(changeInputCheckbox("to_city_id", to[0]._id));
+        await dispatch(changeInputCheckbox("date_start", evt.target.date.value));
+        await dispatch(changeInputCheckbox("date_end", evt.target.date_end.value));
+        console.log(from_city_id)
+        await dispatch(getTicketsDataRequest({ "from_city_id": from_city_id, "to_city_id": to_city_id, "date_start": date_start, "date_end":  date_end, "date_start_arrival": date_start_arrival, "date_end_arrival": date_end_arrival, "have_first_clas": have_first_class,"have_second_class": have_second_class, "have_third_class": have_third_class, "have_fourth_class": have_fourth_class, "have_wifi": have_wifi, "have_air_conditioning": have_air_conditioning,"have_express": have_express,"price_from": price_from,"price_to": price_to}));
+        // dispatch(getTicketsDataRequest({ "from_city_id": from_city_id, "to_city_id": to_city_id, "date_start": date_start, "date_end": date_end, }));
     };
 
     return (
