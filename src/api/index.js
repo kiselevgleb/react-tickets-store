@@ -14,6 +14,8 @@ export const ticketsData = async (ticketsdata) => {
             console.log(masKey[element])
         url+=`&${element}=${ticketsdata[element]}`}
     });
+    console.log(ticketsdata)
+
     // console.log(`${process.env.REACT_APP_TICKETS_URL}?from_city_id=${ticketsdata.from_city_id}&to_city_id=${ticketsdata.to_city_id}&date_start=${ticketsdata.date_start}&date_end=${ticketsdata.date_end}&date_start_arrival=${ticketsdata.date_start_arrival}&date_end_arrival=${ticketsdata.date_end_arrival}&have_second_class=${ticketsdata.have_second_class}&have_third_class=${ticketsdata.have_third_class}&have_fourth_class=${ticketsdata.have_fourth_class}&have_wifi=${ticketsdata.have_wifi}&have_air_conditioning=${ticketsdata.have_air_conditioning}&have_express=${ticketsdata.have_express}`)
     console.log(url)
     // let td = JSON.parse(ticketsdata)

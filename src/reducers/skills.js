@@ -16,6 +16,11 @@ import {
 
   CHANGE_INPUT_CHECKBOX,
   CHANGE_INPUT_PRICE,
+  CHANGE_SORT,
+  CHANGE_DEPARTURE_START_HOURS,
+  CHANGE_DEPARTURE_END_HOURS,
+  CHANGE_ARRIVAL_START_HOURS,
+  CHANGE_ARRIVAL_END_HOURS,
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -81,7 +86,12 @@ const initialState = {
 export default function skillsReducer(state = initialState, action) {
   switch (action.type) {
 
-
+    case CHANGE_SORT:
+      const { sortName } = action.payload;
+      return {
+        ...state,
+        sort: sortName,
+      };
     case SEARCH_CITIES_REQUEST:
       return {
         ...state,
@@ -118,6 +128,37 @@ export default function skillsReducer(state = initialState, action) {
           search: searchChange
         };
       };
+
+    case CHANGE_DEPARTURE_START_HOURS:
+      const { depStmin, depStmax } = action.payload;
+      return {
+        ...state,
+        start_departure_hour_from: depStmin,
+        start_departure_hour_to: depStmax,
+      };
+    case CHANGE_DEPARTURE_END_HOURS:
+      const { depEnmin, depEnmax } = action.payload;
+      return {
+        ...state,
+        end_departure_hour_from: depEnmin,
+        end_departure_hour_to: depEnmax,
+      };
+
+    case CHANGE_ARRIVAL_START_HOURS:
+      const { arrStmin, arrStmax } = action.payload;
+      return {
+        ...state,
+        start_arrival_hour_from: arrStmin,
+        start_arrival_hour_to: arrStmax,
+      };
+    case CHANGE_ARRIVAL_END_HOURS:
+      const { arrEnmin, arrEnmax } = action.payload;
+      return {
+        ...state,
+        end_arrival_hour_from: arrEnmin,
+        end_arrival_hour_to: arrEnmax,
+      };
+
     case CHANGE_INPUT_PRICE:
       const { min, max } = action.payload;
       return {
@@ -255,8 +296,8 @@ export default function skillsReducer(state = initialState, action) {
 
 
 
-      case GET_LAST_TIC_REQUEST:
-        console.log(222);
+    case GET_LAST_TIC_REQUEST:
+      console.log(222);
       return {
         ...state,
         loading: true,
@@ -264,7 +305,7 @@ export default function skillsReducer(state = initialState, action) {
       };
     case GET_LAST_TIC_FAILURE:
       const { errorLastTic } = action.payload;
-            console.log(errorLastTic);
+      console.log(errorLastTic);
 
       return {
         ...state,

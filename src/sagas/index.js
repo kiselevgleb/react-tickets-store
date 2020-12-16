@@ -7,14 +7,14 @@ import { lastTic, cityId, ticketsData, searchCities} from '../api/index';
 
 // function* handleChangeInputCheckboxSaga(action) {
 
-    // const { from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to  } = useSelector(state => state.skills);
+//     // const { from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to  } = useSelector(state => state.skills);
 // console.log(1);
-    // yield put(getTicketsDataRequest({ "from_city_id": action.payload.from_city_id, "to_city_id": action.payload.to_city_id, "date_start": action.payload.date_start, "date_end":  action.payload.date_end, "date_start_arrival": action.payload.date_start_arrival, "date_end_arrival": action.payload.date_end_arrival, "have_first_clas": action.payload.have_first_class,"have_second_class": action.payload.have_second_class, "have_third_class": action.payload.have_third_class, "have_fourth_class": action.payload.have_fourth_class, "have_wifi": action.payload.have_wifi, "have_air_conditioning": action.payload.have_air_conditioning,"have_express": action.payload.have_express,"price_from": action.payload.price_from,"price_to": action.payload.price_to}));
+//     yield put(getTicketsDataRequest({ "from_city_id": action.payload.from_city_id, "to_city_id": action.payload.to_city_id, "date_start": action.payload.date_start, "date_end":  action.payload.date_end, "date_start_arrival": action.payload.date_start_arrival, "date_end_arrival": action.payload.date_end_arrival, "have_first_clas": action.payload.have_first_class,"have_second_class": action.payload.have_second_class, "have_third_class": action.payload.have_third_class, "have_fourth_class": action.payload.have_fourth_class, "have_wifi": action.payload.have_wifi, "have_air_conditioning": action.payload.have_air_conditioning,"have_express": action.payload.have_express,"price_from": action.payload.price_from,"price_to": action.payload.price_to}));
 // }
 
 // watcher
 // function* watchChangeInputCheckboxSaga() {
-    // yield takeLatest(CHANGE_INPUT_CHECKBOX, handleChangeInputCheckboxSaga);
+//     yield takeLatest(CHANGE_INPUT_CHECKBOX, handleChangeInputCheckboxSaga);
 // }
 
 function filterChangeSearchAction({ type, payload }) {
@@ -120,4 +120,6 @@ export default function* saga() {
     yield spawn(watchChangeSearchSaga);
     yield spawn(watchSearchItemsSaga);
     yield spawn(watchLastTicSaga);
+    // yield spawn(watchChangeInputCheckboxSaga);
+
 }

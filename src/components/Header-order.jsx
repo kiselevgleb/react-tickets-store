@@ -19,7 +19,7 @@ export default function HeaderOrder(props) {
         let mas = city;
         setCity(mas.concat(cities));
     };
-    const getTickets = async (evt) => {
+    const getTickets = (evt) => {
         evt.preventDefault();
         dispatch(getCityIdRequest(evt.target.from.value));
         const { value } = evt.target.from;
@@ -28,13 +28,15 @@ export default function HeaderOrder(props) {
         const to = cities.filter(O => O.name === evt.target.to.value);
         const from = city.filter(O => O.name === evt.target.from.value);
         console.log(from_city_id)
-        await dispatch(changeInputCheckbox("from_city_id", from[0]._id));
-        await dispatch(changeInputCheckbox("to_city_id", to[0]._id));
-        await dispatch(changeInputCheckbox("date_start", evt.target.date.value));
-        await dispatch(changeInputCheckbox("date_end", evt.target.date_end.value));
+        dispatch(changeInputCheckbox("from_city_id", from[0]._id));
+        dispatch(changeInputCheckbox("to_city_id", to[0]._id));
+        dispatch(changeInputCheckbox("date_start", evt.target.date.value));
+        dispatch(changeInputCheckbox("date_end", evt.target.date_end.value));
         console.log(from_city_id)
-        await dispatch(getTicketsDataRequest({ "from_city_id": from_city_id, "to_city_id": to_city_id, "date_start": date_start, "date_end":  date_end, "date_start_arrival": date_start_arrival, "date_end_arrival": date_end_arrival, "have_first_clas": have_first_class,"have_second_class": have_second_class, "have_third_class": have_third_class, "have_fourth_class": have_fourth_class, "have_wifi": have_wifi, "have_air_conditioning": have_air_conditioning,"have_express": have_express,"price_from": price_from,"price_to": price_to}));
+        if(from_city_id===from[0]._id){
+        dispatch(getTicketsDataRequest({ "from_city_id": from_city_id, "to_city_id": to_city_id, "date_start": date_start, "date_end":  date_end, "date_start_arrival": date_start_arrival, "date_end_arrival": date_end_arrival, "have_first_clas": have_first_class,"have_second_class": have_second_class, "have_third_class": have_third_class, "have_fourth_class": have_fourth_class, "have_wifi": have_wifi, "have_air_conditioning": have_air_conditioning,"have_express": have_express,"price_from": price_from,"price_to": price_to}));
         // dispatch(getTicketsDataRequest({ "from_city_id": from_city_id, "to_city_id": to_city_id, "date_start": date_start, "date_end": date_end, }));
+        }
     };
 
     return (

@@ -2,7 +2,7 @@
   /* display: inline-block!important; */
   flex: none!important;
   width: 180px!important;
-  height: 640px!important;
+  /* height: 640px!important; */
   background: #3E3C41;
   margin-top: 50px;
   margin-left: 30px;
@@ -97,4 +97,7 @@
   margin-top: 10px;
   margin-right: 20px;
   margin-left: 15px;
+}
+.form-InputRange {
+  margin-bottom: 30px;
 }

@@ -15,6 +15,13 @@ import {
 
   CHANGE_INPUT_CHECKBOX,
   CHANGE_INPUT_PRICE,
+
+  CHANGE_DEPARTURE_START_HOURS,
+  CHANGE_DEPARTURE_END_HOURS,
+  CHANGE_ARRIVAL_START_HOURS,
+  CHANGE_ARRIVAL_END_HOURS,
+  CHANGE_SORT,
+
 } from './actionTypes';
 
 
@@ -32,6 +39,10 @@ export const searchCitiesSuccess = cities => ({
   type: SEARCH_CITIES_SUCCESS,
   payload: { cities },
 });
+export const changeSort = (sortName) => ({
+  type: CHANGE_SORT,
+  payload: { sortName },
+});
 
 export const changeSearchField = searchChange => ({
   type: CHANGE_SEARCH_FIELD,
@@ -42,6 +53,24 @@ export const changeInputCheckbox = (nameInp, stateInp) => ({
   type: CHANGE_INPUT_CHECKBOX,
   payload: { nameInp, stateInp },
 });
+
+export const changeDepartureSt = (depStmin, depStmax) => ({
+  type: CHANGE_DEPARTURE_START_HOURS,
+  payload: { depStmin, depStmax },
+});
+export const changeDepartureEn = (depEnmin, depEnmax) => ({
+  type: CHANGE_DEPARTURE_END_HOURS,
+  payload: { depEnmin, depEnmax },
+});
+export const changeArrivalSt = (arrStmin, arrStmax) => ({
+  type: CHANGE_ARRIVAL_START_HOURS,
+  payload: { arrStmin, arrStmax },
+});
+export const changeArrivalEn = (arrEnmin, arrEnmax) => ({
+  type: CHANGE_ARRIVAL_END_HOURS,
+  payload: { arrEnmin, arrEnmax },
+});
+
 export const changeInputPrice = (min, max) => ({
   type: CHANGE_INPUT_PRICE,
   payload: { min, max },

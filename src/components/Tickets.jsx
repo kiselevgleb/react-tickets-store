@@ -18,19 +18,31 @@ import '../css/but-plus.css';
 import '../css/filter.css';
 import '../css/last-tick.css';
 import '../css/but-pages.css';
-import { getLastTicRequest, getTicketsDataRequest, changeInputCheckbox, changeInputPrice } from '../actions/actionCreators';
+import '../css/but-sort.css';
+import { changeSort, changeDepartureSt, changeDepartureEn, changeArrivalSt, changeArrivalEn, getLastTicRequest, getTicketsDataRequest, changeInputCheckbox, changeInputPrice } from '../actions/actionCreators';
 
 export default function Items(props) {
     // const { loading, error, datatick, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_express, price_from, price_to  } = useSelector(state => state.skills);
-    const { loading, error, datatick, lastTic, from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to } = useSelector(state => state.skills);
+    const { loading, error, datatick, lastTic, from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to, start_departure_hour_from, start_departure_hour_to, start_arrival_hour_from, start_arrival_hour_to, end_departure_hour_from, end_departure_hour_to, end_arrival_hour_from, end_arrival_hour_to, sort } = useSelector(state => state.skills);
 
     const [num, setNum] = useState({ value: { min: 2000, max: 3000 } });
+    const [forth, setForth] = useState(false);
+    const [back, setBack] = useState(false);
+    const [sortMenu, setSortMenu] = useState(['времени', 'стоимости', 'длительности', 'времени']);
+    const [timeforth, setTimeforth] = useState({ value: { min: 0, max: 11 } });
+    const [timeback, setTimeBack] = useState({ value: { min: 0, max: 11 } });
+    const [timeforthEn, setTimeforthEn] = useState({ value: { min: 0, max: 11 } });
+    const [timebackEn, setTimeBackEn] = useState({ value: { min: 0, max: 11 } });
+
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getTicketsDataRequest({ "from_city_id": from_city_id, "to_city_id": to_city_id, "date_start": date_start, "date_end": date_end, "date_start_arrival": date_start_arrival, "date_end_arrival": date_end_arrival, "have_first_clas": have_first_class, "have_second_class": have_second_class, "have_third_class": have_third_class, "have_fourth_class": have_fourth_class, "have_wifi": have_wifi, "have_air_conditioning": have_air_conditioning, "have_express": have_express, "price_from": price_from, "price_to": price_to }));
+
+        dispatch(getTicketsDataRequest({ "from_city_id": from_city_id, "to_city_id": to_city_id, "date_start": date_start, "date_end": date_end, "date_start_arrival": date_start_arrival, "date_end_arrival": date_end_arrival, "have_first_clas": have_first_class, "have_second_class": have_second_class, "have_third_class": have_third_class, "have_fourth_class": have_fourth_class, "have_wifi": have_wifi, "have_air_conditioning": have_air_conditioning, "have_express": have_express, "price_from": price_from, "price_to": price_to, "start_departure_hour_from": start_departure_hour_from, "start_departure_hour_to": start_departure_hour_to, "start_arrival_hour_from": start_arrival_hour_from, "start_arrival_hour_to": start_arrival_hour_to, "end_departure_hour_from": end_departure_hour_from, "end_departure_hour_to": end_departure_hour_to, "end_arrival_hour_from": end_arrival_hour_from, "end_arrival_hour_to": end_arrival_hour_to, "sort":sort }));
         dispatch(getLastTicRequest());
-    }, [from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to])
+        console.log(price_to)
+
+    }, [from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to, start_departure_hour_from, start_departure_hour_to, start_arrival_hour_from, start_arrival_hour_to, end_departure_hour_from, end_departure_hour_to, end_arrival_hour_from, end_arrival_hour_to, sort])
 
     if (loading) {
         return <Loader></Loader>;
@@ -39,7 +51,12 @@ export default function Items(props) {
         return <p className="error">Произошла ошибка!</p>;
     }
     const handleInput = evt => {
+        console.log(evt.currentTarget[0])
+
         if (evt.currentTarget[0] !== undefined) {
+            console.log(evt.currentTarget[0].value)
+            console.log(evt.currentTarget[1].value)
+
             dispatch(changeInputPrice(evt.currentTarget[0].value, evt.currentTarget[1].value));
         } else {
             let nameInp = evt.target.name;
@@ -47,6 +64,43 @@ export default function Items(props) {
             dispatch(changeInputCheckbox(nameInp, stateInp));
         }
     };
+    const handleTimeF = evt => {
+        setForth(!forth);
+    };
+    const handleTimeB = evt => {
+        setBack(!back);
+    };
+    const handleTimeforthSt = evt => {
+        console.log(evt.currentTarget[0])
+
+        if (evt.currentTarget[0] !== undefined) {
+            console.log(evt.currentTarget[0].value)
+            console.log(evt.currentTarget[1].value)
+            dispatch(changeDepartureSt(evt.currentTarget[0].value, evt.currentTarget[1].value));
+        }
+    };
+
+    const handleTimeforthEn = evt => {
+        if (evt.currentTarget[0] !== undefined) {
+            dispatch(changeDepartureEn(evt.currentTarget[0].value, evt.currentTarget[1].value));
+        }
+    };
+
+    const handleTimebackSt = evt => {
+        if (evt.currentTarget[0] !== undefined) {
+            dispatch(changeArrivalSt(evt.currentTarget[0].value, evt.currentTarget[1].value));
+        }
+    };
+
+    const handleTimebackEn = evt => {
+        if (evt.currentTarget[0] !== undefined) {
+            dispatch(changeArrivalEn(evt.currentTarget[0].value, evt.currentTarget[1].value));
+        }
+    };
+    const handleSort = evt => {
+        dispatch(changeSort(sortMenu[3]));
+    };
+
     return (
         <Fragment>
             <div className="wrap-tickets">
@@ -147,44 +201,83 @@ export default function Items(props) {
                             <div className="row">
                                 <img className="icon filter-icon-after" src={subbut} alt="subbut"></img>
                                 <p className="filter-text-big filter-text-after"><b>Туда</b></p>
-                                <div className="plus">
-                                    <div className="plus-line"></div>
-                                    <div className="plus-line plus-90"></div>
+                                <div className="plus" onClick={handleTimeF}>
+                                    <div className="plus-line-sm"></div>
+                                    {!forth ?
+                                        <div className="plus-line-sm plus-90"></div>
+                                        : <div></div>}
                                 </div>
                             </div>
+                            {forth ?
+                                <>
+                                    <div className="row">
+                                        <p className="filter-text-range">Время отбытия</p>
+                                    </div>
+                                    <form className="form form-InputRange" onMouseUp={handleTimeforthSt} >
+                                        <InputRange draggableTrack maxValue={24} minValue={0} name="price" value={timeforth.value} onChange={value => setTimeforth({ value })} />
+                                    </form>
+                                    <div className="row">
+                                        <p className="filter-text-range">Время прибытия</p>
+                                    </div>
+                                    <form className="form form-InputRange" onMouseUp={handleTimeforthEn} >
+                                        <InputRange draggableTrack maxValue={24} minValue={0} name="price" value={timeforthEn.value} onChange={value => setTimeforthEn({ value })} />
+                                    </form>
+                                </>
+                                : <div></div>}
+
                             <div className="filter-line"></div>
                             <div className="row">
                                 <img className="icon filter-icon-after" src={subbut} alt="subbut"></img>
                                 <p className="filter-text-big filter-text-after2"><b>Обратно</b></p>
-                                <div className="plus">
-                                    <div className="plus-line"></div>
-                                    <div className="plus-line plus-90"></div>
+                                <div className="plus" onClick={handleTimeB}>
+                                    <div className="plus-line-sm"></div>
+                                    {!back ?
+                                        <div className="plus-line-sm plus-90"></div>
+                                        : <div></div>}
                                 </div>
                             </div>
+                            {back ?
+                                <>
+                                    <div className="row">
+                                        <p className="filter-text-range">Время отбытия</p>
+                                    </div>
+                                    <form className="form form-InputRange" onMouseUp={handleTimebackSt} >
+                                        <InputRange draggableTrack maxValue={24} minValue={0} name="price" value={timeback.value} onChange={value => setTimeBack({ value })} />
+                                    </form>
+                                    <div className="row">
+                                        <p className="filter-text-range">Время прибытия</p>
+                                    </div>
+                                    <form className="form form-InputRange" onMouseUp={handleTimebackEn} >
+                                        <InputRange draggableTrack maxValue={24} minValue={0} name="price" value={timebackEn.value} onChange={value => setTimeBackEn({ value })} />
+                                    </form>
+                                </>
+                                : <div></div>}
+                            <div className="filter-line"></div>
                         </div>
                         <div className="col wrap-last">
                             <div className="row">
                                 <p className="h1-last"><b>ПОСЛЕДНИЕ БИЛЕТЫ</b></p>
                             </div>
-                            {lastTic.map(o =>
-                                <div className="row">
-                                    <div className="last-tick">
-                                        <div className="row last-row-inline">
-                                            <div className="col last-col">
-                                                <p className="last-city">{o.departure.from.city.name}</p>
-                                                <p className="last-station">{o.departure.from.railway_station_name}<br></br> вокзал</p>
-                                                <img className="last-icon" src={lastTick} alt="lastTick"></img>
+                            {lastTic.map === undefined ? <div></div> :
+                                lastTic.map(o =>
+                                    <div className="row">
+                                        <div className="last-tick">
+                                            <div className="row last-row-inline">
+                                                <div className="col last-col">
+                                                    <p className="last-city">{o.departure.from.city.name}</p>
+                                                    <p className="last-station">{o.departure.from.railway_station_name}<br></br> вокзал</p>
+                                                    <img className="last-icon" src={lastTick} alt="lastTick"></img>
 
-                                            </div>
-                                            <div className="col last-col">
-                                                <p className="last-city">{o.departure.to.city.name}</p>
-                                                <p className="last-station">{o.departure.to.railway_station_name}<br></br> вокзал</p>
-                                                <p className="last-station last-text">от <b className="last-text-or">{o.min_price}</b> Р</p>
+                                                </div>
+                                                <div className="col last-col-right">
+                                                    <p className="last-city">{o.departure.to.city.name}</p>
+                                                    <p className="last-station">{o.departure.to.railway_station_name}<br></br> вокзал</p>
+                                                    <p className="last-station last-text">от <b className="last-text-or">{o.min_price}</b> Р</p>
 
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>)}
+                                    </div>)}
                         </div>
 
 
@@ -192,10 +285,20 @@ export default function Items(props) {
 
                     </div>
                     <div className="col-sm-10 ticket-block col-tickets">
-                        <div className="row tickets sort-tickets-text block-percent">
-                            <div className="col-sm-2 col-tickets left block-percent"><p>найдено 20</p></div>
+                        <div className="row tickets sort-tickets-text block-percent sort-posit">
+                            <div className="col-sm-2 col-tickets left block-percent">
+                                {datatick.items === undefined ? <p>найдено 0</p> : <p>найдено {datatick.items.length}</p>}</div>
                             <div className="col-sm-1 block-percent"></div>
-                            <div className="col-sm-2 block-percent">сортировать по: времени</div>
+                            <div class="dropdown">
+                                <div>сортировать по: {sortMenu[3]}</div>
+                                <div class="dropdown-content">
+                                    <a href="#" onMouseDown={() => setSortMenu(['времени', 'стоимости', 'длительности', 'времени']), handleSort}>{sortMenu[0]}</a>
+                                    <div className="sort-line-after"></div>
+                                    <a href="#" onMouseDown={() => setSortMenu(['времени', 'стоимости', 'длительности', 'стоимости']), handleSort}>{sortMenu[1]} </a>
+                                    <div className="sort-line-after"></div>
+                                    <a href="#" onMouseDown={() => setSortMenu(['времени', 'стоимости', 'длительности', 'длительности']), handleSort}>{sortMenu[2]}</a>
+                                </div>
+                            </div>
                             <div className="col-sm-2 col-tickets block-percent"></div>
                             <div className="col-sm-3 col-tickets right block-percent">показывать по: 5  10  20 </div>
                         </div>
