@@ -69,3 +69,14 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
   color: #ffffff;
 }
 
+.a-num {
+  color:#928F94;
+}
+.a-num:hover { 
+  text-decoration: none;
+  color: rgb(0, 0, 0); 
+ }
+.a-sort {
+  cursor: pointer;
+  display: inline;
+}

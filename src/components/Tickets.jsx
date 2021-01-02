@@ -19,15 +19,16 @@ import '../css/filter.css';
 import '../css/last-tick.css';
 import '../css/but-pages.css';
 import '../css/but-sort.css';
-import { changeSort, changeDepartureSt, changeDepartureEn, changeArrivalSt, changeArrivalEn, getLastTicRequest, getTicketsDataRequest, changeInputCheckbox, changeInputPrice } from '../actions/actionCreators';
+import { changeLimit, changeSort, changeDepartureSt, changeDepartureEn, changeArrivalSt, changeArrivalEn, getLastTicRequest, getTicketsDataRequest, changeInputCheckbox, changeInputPrice } from '../actions/actionCreators';
 
 export default function Items(props) {
     // const { loading, error, datatick, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_express, price_from, price_to  } = useSelector(state => state.skills);
-    const { loading, error, datatick, lastTic, from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to, start_departure_hour_from, start_departure_hour_to, start_arrival_hour_from, start_arrival_hour_to, end_departure_hour_from, end_departure_hour_to, end_arrival_hour_from, end_arrival_hour_to, sort } = useSelector(state => state.skills);
+    const { loading, error, datatick, lastTic, from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to, start_departure_hour_from, start_departure_hour_to, start_arrival_hour_from, start_arrival_hour_to, end_departure_hour_from, end_departure_hour_to, end_arrival_hour_from, end_arrival_hour_to, limit, offset, sort } = useSelector(state => state.skills);
 
     const [num, setNum] = useState({ value: { min: 2000, max: 3000 } });
     const [forth, setForth] = useState(false);
     const [back, setBack] = useState(false);
+    const [limitMenu, setLimit] = useState('5');
     const [sortMenu, setSortMenu] = useState(['времени', 'стоимости', 'длительности', 'времени']);
     const [timeforth, setTimeforth] = useState({ value: { min: 0, max: 11 } });
     const [timeback, setTimeBack] = useState({ value: { min: 0, max: 11 } });
@@ -38,11 +39,12 @@ export default function Items(props) {
 
     useEffect(() => {
 
-        dispatch(getTicketsDataRequest({ "from_city_id": from_city_id, "to_city_id": to_city_id, "date_start": date_start, "date_end": date_end, "date_start_arrival": date_start_arrival, "date_end_arrival": date_end_arrival, "have_first_clas": have_first_class, "have_second_class": have_second_class, "have_third_class": have_third_class, "have_fourth_class": have_fourth_class, "have_wifi": have_wifi, "have_air_conditioning": have_air_conditioning, "have_express": have_express, "price_from": price_from, "price_to": price_to, "start_departure_hour_from": start_departure_hour_from, "start_departure_hour_to": start_departure_hour_to, "start_arrival_hour_from": start_arrival_hour_from, "start_arrival_hour_to": start_arrival_hour_to, "end_departure_hour_from": end_departure_hour_from, "end_departure_hour_to": end_departure_hour_to, "end_arrival_hour_from": end_arrival_hour_from, "end_arrival_hour_to": end_arrival_hour_to, "sort":sort }));
+        dispatch(getTicketsDataRequest({ "from_city_id": from_city_id, "to_city_id": to_city_id, "date_start": date_start, "date_end": date_end, "date_start_arrival": date_start_arrival, "date_end_arrival": date_end_arrival, "have_first_clas": have_first_class, "have_second_class": have_second_class, "have_third_class": have_third_class, "have_fourth_class": have_fourth_class, "have_wifi": have_wifi, "have_air_conditioning": have_air_conditioning, "have_express": have_express, "price_from": price_from, "price_to": price_to, "start_departure_hour_from": start_departure_hour_from, "start_departure_hour_to": start_departure_hour_to, "start_arrival_hour_from": start_arrival_hour_from, "start_arrival_hour_to": start_arrival_hour_to, "end_departure_hour_from": end_departure_hour_from, "end_departure_hour_to": end_departure_hour_to, "end_arrival_hour_from": end_arrival_hour_from, "end_arrival_hour_to": end_arrival_hour_to, "limit": limit, "offset": offset, "sort": sort }));
         dispatch(getLastTicRequest());
         console.log(price_to)
 
-    }, [from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to, start_departure_hour_from, start_departure_hour_to, start_arrival_hour_from, start_arrival_hour_to, end_departure_hour_from, end_departure_hour_to, end_arrival_hour_from, end_arrival_hour_to, sort])
+        // const { loading, error, datatick, lastTic, from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to, start_departure_hour_from, start_departure_hour_to, start_arrival_hour_from, start_arrival_hour_to, end_departure_hour_from, end_departure_hour_to, end_arrival_hour_from, end_arrival_hour_to, sort } = useSelector(state => state.skills);
+    }, [from_city_id, to_city_id, date_start, date_end, date_start_arrival, date_end_arrival, have_first_class, have_second_class, have_third_class, have_fourth_class, have_wifi, have_air_conditioning, have_express, price_from, price_to, start_departure_hour_from, start_departure_hour_to, start_arrival_hour_from, start_arrival_hour_to, end_departure_hour_from, end_departure_hour_to, end_arrival_hour_from, end_arrival_hour_to, limit, offset, sort])
 
     if (loading) {
         return <Loader></Loader>;
@@ -100,7 +102,9 @@ export default function Items(props) {
     const handleSort = evt => {
         dispatch(changeSort(sortMenu[3]));
     };
-
+    const handleLimit = evt => {
+        dispatch(changeLimit(limitMenu));
+    };
     return (
         <Fragment>
             <div className="wrap-tickets">
@@ -290,7 +294,7 @@ export default function Items(props) {
                                 {datatick.items === undefined ? <p>найдено 0</p> : <p>найдено {datatick.items.length}</p>}</div>
                             <div className="col-sm-1 block-percent"></div>
                             <div class="dropdown">
-                                <div>сортировать по: {sortMenu[3]}</div>
+                                <div>сортировать по: <div className="a-sort">{sortMenu[3]}</div></div>
                                 <div class="dropdown-content">
                                     <a href="#" onMouseDown={() => setSortMenu(['времени', 'стоимости', 'длительности', 'времени']), handleSort}>{sortMenu[0]}</a>
                                     <div className="sort-line-after"></div>
@@ -300,7 +304,12 @@ export default function Items(props) {
                                 </div>
                             </div>
                             <div className="col-sm-2 col-tickets block-percent"></div>
-                            <div className="col-sm-3 col-tickets right block-percent">показывать по: 5  10  20 </div>
+                            <div className="col-sm-3 col-tickets right block-percent">показывать по:
+                            <a href="#" className="a-num" onClick={() => setLimit('5'), handleLimit}> 5 </a>
+                                <a href="#" className="a-num" onClick={() => setLimit('10'), handleLimit}>10 </a>
+                                <a href="#" className="a-num" onClick={() => setLimit('15'), handleLimit}>15</a>
+
+                            </div>
                         </div>
                         {datatick.items === undefined ? <div></div> :
                             datatick.items.map(o =>
@@ -381,18 +390,23 @@ export default function Items(props) {
                                 <div className="plus-line"></div>
                                 <div className="plus-line plus-45"></div>
                             </div>
-                            <div className="btn-pages">
-                                <div className="btn-text"><b>1</b></div>
-                            </div>
+                            {datatick.items === undefined ?
+                                <div className="btn-pages">
+                                    <div className="btn-text"><b>1</b></div>
+                                </div> :
+                                datatick.items.splice(0, datatick.items.length - datatick.items.length / limitMenu).map((o, i) =>
+                                    < div className="btn-pages">
+                                        <div className="btn-text"><b>{i}</b></div>
+                                    </div>)
+                            }
                             <div className="btn-pages">
                                 <div className="plus-line-mn"></div>
                                 <div className="plus-line plus-mn-45"></div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-        </Fragment>
+        </Fragment >
     )
 }

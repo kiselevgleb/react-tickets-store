@@ -17,6 +17,7 @@ import {
   CHANGE_INPUT_CHECKBOX,
   CHANGE_INPUT_PRICE,
   CHANGE_SORT,
+  CHANGE_LIMIT,
   CHANGE_DEPARTURE_START_HOURS,
   CHANGE_DEPARTURE_END_HOURS,
   CHANGE_ARRIVAL_START_HOURS,
@@ -76,7 +77,7 @@ const initialState = {
   // - Час прибытия назад до (работает при установленном параметре date_end)
   limit: '',
   // - Количество результатов на странице
-  offset: '',
+  offset: '100',
   // - Количество результатов, которое необходимо пропустить в выдаче
   sort: '',
   // - Сортировка результатов (date, price, duration)
@@ -85,7 +86,13 @@ const initialState = {
 
 export default function skillsReducer(state = initialState, action) {
   switch (action.type) {
-
+    case CHANGE_LIMIT:
+      const { numLimit } = action.payload;
+      return {
+        ...state,
+        limit: numLimit,
+      };
+    
     case CHANGE_SORT:
       const { sortName } = action.payload;
       return {

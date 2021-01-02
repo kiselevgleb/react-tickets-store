@@ -21,7 +21,7 @@ import {
   CHANGE_ARRIVAL_START_HOURS,
   CHANGE_ARRIVAL_END_HOURS,
   CHANGE_SORT,
-
+  CHANGE_LIMIT,
 } from './actionTypes';
 
 
@@ -43,7 +43,10 @@ export const changeSort = (sortName) => ({
   type: CHANGE_SORT,
   payload: { sortName },
 });
-
+export const changeLimit = (numLimit) => ({
+  type: CHANGE_LIMIT,
+  payload: { numLimit },
+});
 export const changeSearchField = searchChange => ({
   type: CHANGE_SEARCH_FIELD,
   payload: { searchChange },
